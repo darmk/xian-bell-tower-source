@@ -2,9 +2,8 @@
 
 import { useEffect, useRef, useState } from 'react';
 import { ArrowRight, Box, ChevronDown, ChevronRight, Columns3, Eye, EyeOff, Layers, Maximize2, Moon, Move, PlayCircle, RotateCcw, Ruler, Sun, X, ZoomIn, ZoomOut } from 'lucide-react';
-import { Switch } from '@/components/ui/switch';
 import type { ViewerAPI } from './viewer';
-import { publicAsset } from '@/lib/public-asset';
+import { publicAsset } from './public-asset';
 
 const views = [
   { key: 'overall', label: '全景', title: '建筑全貌' },
@@ -20,7 +19,17 @@ const views = [
   { key: 'finial', label: '鎏金宝顶', title: '鎏金宝顶' },
 ];
 
-export default function Home() {
+function ToggleSwitch({ id, checked, disabled, onCheckedChange }: {
+  id: string;
+  checked: boolean;
+  disabled?: boolean;
+  onCheckedChange: (checked: boolean) => void;
+}) {
+  return <button id={id} type="button" className="toggle-switch" role="switch"
+    aria-checked={checked} disabled={disabled} onClick={() => onCheckedChange(!checked)}><span /></button>;
+}
+
+export default function App() {
   const host = useRef<HTMLDivElement>(null);
   const api = useRef<ViewerAPI | null>(null);
   const dialog = useRef<HTMLDialogElement>(null);
@@ -123,7 +132,7 @@ export default function Home() {
           <button className="control-row" aria-label="尺寸标注" aria-pressed={dimensions} disabled={disabled} onClick={() => toggle('dimensions', !dimensions, setDimensions)}><Ruler size={16} /><span>尺寸标注</span>{dimensions ? <Eye size={18} /> : <EyeOff size={18} />}</button>
           <div className="explode-control"><label htmlFor="explode"><Maximize2 size={16} />分层展开 <span>{explode}%</span></label><input id="explode" type="range" min="0" max="100" step="1" value={explode} disabled={disabled} onChange={event => { const value = Number(event.target.value); setExplode(value); api.current?.explode(value); }} /></div>
           <div className="lighting-control">
-            <label className="switch-row" htmlFor="night">{night ? <Moon size={16} /> : <Sun size={16} />}夜间灯光<Switch id="night" checked={night} disabled={disabled} onCheckedChange={value => toggle('night', value, setNight)} /></label>
+            <div className="switch-row">{night ? <Moon size={16} /> : <Sun size={16} />}<label htmlFor="night">夜间灯光</label><ToggleSwitch id="night" checked={night} disabled={disabled} onCheckedChange={value => toggle('night', value, setNight)} /></div>
           </div>
         </div>}
       </aside>
@@ -142,7 +151,7 @@ export default function Home() {
           <button disabled={disabled} onClick={() => view('overall')} title="让完整建筑重新进入画面"><Maximize2 size={18} />完整入画</button>
           <button disabled={!ready} onClick={reset}><RotateCcw size={21} strokeWidth={1.3} />复位</button>
         </div>
-        <label className="auto-rotate" htmlFor="spin"><PlayCircle size={19} strokeWidth={1.3} /><span>自动旋转</span><Switch id="spin" checked={spin} disabled={disabled} onCheckedChange={value => toggle('spin', value, setSpin)} /></label>
+        <div className="auto-rotate"><PlayCircle size={19} strokeWidth={1.3} /><label htmlFor="spin">自动旋转</label><ToggleSwitch id="spin" checked={spin} disabled={disabled} onCheckedChange={value => toggle('spin', value, setSpin)} /></div>
       </div>
       <p className="gesture-hint"><Move size={12} />{fallback ? '点击缩略图切换视角' : '拖动旋转 · 滚轮缩放 · 右键平移'}</p>
     </footer>

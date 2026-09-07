@@ -8,6 +8,19 @@
 浏览器打开 http://localhost:3000/xianBellTower 。Windows PowerShell 和 CMD 均可使用。
 运行 `npm run build` 会生成可供 Nginx 托管的 `dist/index.html` 和全部静态资源。将 `dist` 内的内容上传到 `/home/project/www/xianBellTower/`；`npm start` 可在本地预览 `http://localhost:3000/xianBellTower/`。详细说明见 [DEPLOYMENT.md](./DEPLOYMENT.md)。
 
+发布前运行 `npm run check` 检查 TypeScript，再运行 `npm run build`。
+
+## 项目结构
+
+```text
+src/             页面、样式和 Three.js 查看器
+public/          GLB、视角图、页面图片和图标
+scripts/model/   模型、纹理和视角图生成脚本
+dist/            静态构建产物（由 npm run build 生成）
+index.html       Vite 页面入口
+vite.config.ts   开发、打包及 /xianBellTower/ 部署前缀
+```
+
 ## 文件与单位
 
 - `xian-bell-tower.glb`：完整建筑、8 套内嵌 PBR 材质、24 张内嵌 PNG 贴图。

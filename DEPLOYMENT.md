@@ -19,7 +19,7 @@ npm run dev
 npm run build
 ```
 
-该命令使用 `vite.static.config.ts`，生成 `dist/index.html`，并将 `public/` 中的模型、图片和图标复制到 `dist/`。每次构建会清理旧的 `dist` 产物。
+该命令使用 `vite.config.ts`，生成 `dist/index.html`，并将 `public/` 中的模型、图片和图标复制到 `dist/`。每次构建会清理旧的 `dist` 产物。
 
 ```text
 dist/
@@ -84,15 +84,11 @@ nginx -t && nginx -s reload
 - 视角缩略图：`/xianBellTower/model/views/`
 - 页面图片：`/xianBellTower/images/`
 
-静态入口为 `index.html` 和 `static/main.tsx`，公共资源地址通过 `lib/public-asset.ts` 使用构建前缀。以后修改部署目录，需要修改 `vite.static.config.ts` 中的 `base` 并重新构建，不能只改服务器文件夹名。
+网页源码统一放在 `src/`：`main.tsx` 是入口，`App.tsx` 是界面，`viewer.ts` 负责三维场景，`public-asset.ts` 处理部署前缀。以后修改部署目录，需要修改 `vite.config.ts` 中的 `base` 并重新构建，不能只改服务器文件夹名。
 
 ## 验证与排错
 
-```bash
-npm test
-```
-
-测试会重新构建静态站点，并检查 HTML、JS/CSS、动态加载模块、完整 GLB、所有视角图片和现有 UI 组件。
+发布前运行 `npm run check` 和 `npm run build`，然后通过 `npm start` 检查实际构建产物。
 
 - 404：检查入口是否在目标目录内，是否误传成 `xianBellTower/dist/index.html`。
 - 脚本 MIME 错误或模型解析错误：检查资源响应是否实际返回 HTML，确认所有产物已上传且请求带 `/xianBellTower/` 前缀。
