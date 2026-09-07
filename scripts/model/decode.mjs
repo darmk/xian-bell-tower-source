@@ -1,0 +1,8 @@
+import {NodeIO} from '@gltf-transform/core';import {ALL_EXTENSIONS} from '@gltf-transform/extensions';import {MeshoptDecoder} from 'meshoptimizer';import fs from 'node:fs';import * as T from 'three';
+await MeshoptDecoder.ready;const io=new NodeIO().registerExtensions(ALL_EXTENSIONS).registerDependencies({'meshopt.decoder':MeshoptDecoder});const doc=await io.read('public/model/xian-bell-tower.glb');fs.mkdirSync('/workspace/scratch/c0712837f0ef/render-data',{recursive:true});const root='/workspace/scratch/c0712837f0ef/render-data';let manifest=[],id=0;
+for(const node of doc.getRoot().listNodes()){const mesh=node.getMesh();if(!mesh)continue;for(const p of mesh.listPrimitives()){
+ const mat=new T.Matrix4().fromArray(node.getWorldMatrix());const normalMat=new T.Matrix3().getNormalMatrix(mat);const pa=p.getAttribute('POSITION'),na=p.getAttribute('NORMAL'),ua=p.getAttribute('TEXCOORD_0');let pos=[],norm=[],uv=[],v=new T.Vector3(),tmp=[];
+ for(let i=0;i<pa.getCount();i++){pa.getElement(i,tmp);v.fromArray(tmp).applyMatrix4(mat);pos.push(...v);na.getElement(i,tmp);v.fromArray(tmp).applyMatrix3(normalMat).normalize();norm.push(...v);ua.getElement(i,tmp);uv.push(tmp[0],tmp[1]);}
+ const arrays={pos:new Float32Array(pos),norm:new Float32Array(norm),uv:new Float32Array(uv),idx:new Uint32Array(p.getIndices().getArray())};for(const [k,v] of Object.entries(arrays))fs.writeFileSync(`${root}/${id}-${k}.bin`,Buffer.from(v.buffer));manifest.push({id,name:node.getName(),mat:p.getMaterial().getName(),vertices:pa.getCount(),triangles:p.getIndices().getCount()/3});id++;
+}}
+fs.writeFileSync(root+'/manifest.json',JSON.stringify(manifest));console.log('Independent decoded meshes',id);

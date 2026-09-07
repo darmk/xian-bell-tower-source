@@ -1,0 +1,33 @@
+{
+  "triangles": 765636,
+  "vertices": 693748,
+  "meshes": 41,
+  "columns": {
+    "inner": 4,
+    "outer": 12,
+    "eave": 20,
+    "square": 8
+  },
+  "units": "metres",
+  "dimensions": {
+    "base": [
+      35.5,
+      8.6,
+      35.5
+    ],
+    "height": 36
+  },
+  "approximated": [
+    "Stair layout",
+    "Bracket node configurations",
+    "Roof profiles",
+    "Relief motifs",
+    "Beast arrangements"
+  ],
+  "generator": "Three.js geometry + glTF-Transform, cloud Node.js; no Blender",
+  "bytes": 14683560,
+  "validation": {
+    "errors": 0,
+    "warnings": 0
+  }
+}

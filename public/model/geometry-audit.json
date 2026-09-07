@@ -1,0 +1,16 @@
+{
+  "finite_coordinates": true,
+  "degenerate_triangles": 0,
+  "bounds_min": [
+    -17.860000610351562,
+    -0.00013483224029187113,
+    -20.033157348632812
+  ],
+  "bounds_max": [
+    17.860000610351562,
+    36.0,
+    17.860000610351562
+  ],
+  "browser_qa": "WebGL disabled in cloud QA browser; camera image fallback checked; real-time WebGL not browser-tested",
+  "independent_views": 11
+}
