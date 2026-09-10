@@ -2,6 +2,19 @@
 
 默认构建为纯静态网站，部署前缀固定为 `/xianBellTower/`。服务器只需要 Nginx，无需运行 Node.js。页面复用现有 React / Three.js 查看器，保留模型、视角、构件控制和灯光功能。
 
+## 公众号关注引导（纯前端版）
+
+首次访问时，页面会先展示固定的公众号二维码；用户点击“我已关注，进入体验”后，才会加载三维查看器。该状态保存在浏览器的 `localStorage`，同一协议、域名和端口下的其他项目可使用相同键名共享它。
+
+配置位于 `src/follow-gate-config.ts`：
+
+- `enabled`：设为 `false` 可临时关闭引导；
+- `accountName`、`eyebrow`、`title`、`description`、`confirmLabel`：可修改展示文案；
+- `qrCodePath`：公众号二维码在 `public/` 下的路径；
+- `storageKey`：多个同域项目使用相同值，即可复用“已进入”状态。
+
+当前版本不与微信服务器通信，不能验证用户是否真的已关注；它用于关注引导而非安全访问控制。要再次查看引导，可在浏览器开发者工具的 Application/应用面板中删除 `darmk:follow-gate:main:v1` 这一 Local Storage 项。
+
 ## 本地开发
 
 构建电脑需要 Node.js 22.13 或更新版本和 npm。

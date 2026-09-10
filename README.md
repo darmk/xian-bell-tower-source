@@ -9,6 +9,17 @@
 > **在线体验：[https://www.darmk.com.cn/xianBellTower/](https://www.darmk.com.cn/xianBellTower/)**  
 > 建议使用开启硬件加速的 Chrome、Edge 或 Firefox。模型约 14 MiB，首次打开需要一点加载时间。
 
+## 关注公众号引导
+
+首次访问页面时会先显示公众号二维码。扫码关注后，点击“我已关注，进入体验”即可进入三维展览；确认后，页面才会开始加载模型和材质。
+
+> 创作不易，感谢支持。<br>
+> 扫码关注公众号，继续发掘更多精彩内容和作品。
+
+当前版本是无需后端的前端引导：浏览器会将“已进入”状态保存到 `localStorage`，同一协议、域名和端口下的其他项目若使用同一键名，也可以复用该状态。它不与微信服务器通信，因此不能验证用户是否真实关注公众号，也不应作为安全访问控制。
+
+公众号名称、二维码、展示文案、是否启用引导以及共享状态键都集中在 [src/follow-gate-config.ts](src/follow-gate-config.ts) 配置。当前二维码文件为 [public/images/qrcode_for_gh_10e8400b2bfb_860.jpg](public/images/qrcode_for_gh_10e8400b2bfb_860.jpg)；修改配置后重新执行 `npm run build` 并部署即可生效。完整的部署与重置说明见 [DEPLOYMENT.md](DEPLOYMENT.md)。
+
 ## 项目介绍
 
 ### 这不是一张效果图，而是一座可操作的建筑模型
